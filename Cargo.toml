@@ -1,0 +1,18 @@
+[package]
+name = "rust-my-web"
+version = "0.1.0"
+authors = ["yk <yk@finch-melrose.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[[bin]]
+name = "rust-my-web"
+path = "src/org/news/main.rs"
+
+
+[dependencies]
+actix = "0.11.1"
+actix-web = "3.3.2"
+serde = "1.0.125"
+serde_json = "1.0.64"
