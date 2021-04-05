@@ -8,8 +8,10 @@ use log4rs::{
 };
 
 use api::news::find_one;
+use crate::config::config::AppState;
 
 mod api;
+mod config;
 mod request;
 mod response;
 
@@ -17,11 +19,18 @@ mod response;
 async fn main() -> std::io::Result<()> {
     // configure_as_json();
     configure_as_console();
+    info!("starting redis connect");
 
-    info!("booting up");
+    let actor = RedisActor::new("redis://127.0.0.1:6379").await;
+    let addr = actor.start();
+
+    info!("starting server");
 
     HttpServer::new(|| App::new()
         .service(find_one)
+        .data(AppState{
+            redis: con.unwrap().clone()
+        })
     )
         .bind("127.0.0.1:8080")?
         .run()
